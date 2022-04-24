@@ -13,7 +13,7 @@
     "url": "git+https://github.com/FalkaiPeter/easy-ts-redux.git"
   },
   "scripts": {
-    "build": "rm -d -r dist && tsc"
+    "build": "rm -d -r dist && tsc src/"
   },
   "dependencies": {
     "immer": "^9.0.12",
