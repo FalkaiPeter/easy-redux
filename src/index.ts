@@ -1,2 +1,2 @@
-export {createReducer} from './reducer'
-export {createStore} from './store'
+export { default as easyStore } from "./store";
+export { default as easyReducer } from "./reducer";

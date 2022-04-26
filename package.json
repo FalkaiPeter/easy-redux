@@ -13,9 +13,10 @@
     "url": "git+https://github.com/FalkaiPeter/easy-ts-redux.git"
   },
   "scripts": {
-    "build": "rm -d -r dist && tsc src/"
+    "build": "rm -d -r dist && tsc"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "immer": "^9.0.12",
     "redux-saga": "^1.1.3"
   },

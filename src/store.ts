@@ -1,22 +1,14 @@
-import { createStore as createReduxStore, applyMiddleware, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import createSagaMiddleware from 'redux-saga';
-import { all } from 'redux-saga/effects';
+import { configureStore } from "@reduxjs/toolkit";
+import createSagaMiddleware from "redux-saga";
+import { all } from "redux-saga/effects";
 
-interface Props {
-  reducers?: Record<string, any>;
-  watchers?: Generator[];
-}
-
-export function createStore({ reducers = {}, watchers = [] }: Props) {
-  const rootReducer = combineReducers(reducers);
+export default function <R extends {}, M extends []>(reducer: R, watchers?: (() => Generator[])[], middlewares?: M) {
   const sagaMiddleware = createSagaMiddleware();
+  const store = configureStore({ reducer, middleware: [sagaMiddleware, ...(middlewares || [])] });
 
-  function* rootSaga() {
-    yield all(watchers);
-  }
+  sagaMiddleware.run(function* () {
+    yield all(watchers?.flatMap((w) => w()) || []);
+  });
 
-  const store = createReduxStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
-  sagaMiddleware.run(rootSaga);
   return store;
 }
