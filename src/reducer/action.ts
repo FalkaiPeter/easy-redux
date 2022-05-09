@@ -9,7 +9,7 @@ export const action =
       actionErrors(type, !!saga, !!reducerFn, Object.keys(watchers), Object.keys(handlers));
       const pre = (isSaga: boolean) => `${prefix}/${type}${isSaga ? "_SAGA" : ""}`;
       if (saga) watchers[type] = watcher(pre(true), saga);
-      if (reducerFn) handlers[type] = reducerFn;
+      if (reducerFn) handlers[pre(false)] = reducerFn;
       return () => ({ type: pre(!!saga) });
     } catch (e) {
       console.error(e);
